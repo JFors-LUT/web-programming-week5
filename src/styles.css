@@ -1,3 +1,10 @@
 body {
   font-family: sans-serif;
+  margin:0;
+  padding:0;
+}
+
+#map {
+  height: 97vh;
+  min-zoom: -3;
 }
