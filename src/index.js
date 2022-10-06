@@ -19,6 +19,7 @@ const fetchData = async () => {
 
 const initMap = (data) =>{  
 
+  var listedValues = getData();
 
   let map = L.map('map', {
     minZoom: -3
@@ -31,33 +32,39 @@ const initMap = (data) =>{
 
   }).addTo(map)
 
-  let listedValues = getData();
+ 
 
   let osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
 
-  
+ 
 listedValues.then(value => {
   for (var i = 2; i < value.length; i++) { 
     layer = mapFeatures[value[i][0]]
     layer.bindPopup(
-      `<ul>
+    `<ul>
       <li>Arrivals : ${value[i][1]}</li>
       <li>Departures: ${value[i][2]}</li>
     </ul>`)
 
-
-
+    colorHue = ((value[i][1]/value[i][2])**3*60)
+    if(colorHue > 120) colorHue = 120;
+    layer.setStyle({fillColor: "hsl("+colorHue+",75%,50%)"})
   }
+
 }).catch(err => {
   console.log(err);
 })
 
+
+
   map.fitBounds(geoJSON.getBounds())
+}
 
-
+colorLayers = () => {
+  geoJSON.eachLayer(styleKunta())
 }
 
 getFeature = (feature, layer) => {
