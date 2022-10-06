@@ -26,13 +26,12 @@ const initMap = (data) =>{
 
   let geoJSON = L.geoJSON(data, {
     onEachFeature: getFeature,
-    weight: 2
+    style: getStyle
 
 
   }).addTo(map)
 
   let listedValues = getData();
-  console.log(listedValues)
 
   let osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
@@ -67,13 +66,15 @@ getFeature = (feature, layer) => {
 
   
   var kuntaTag = feature.properties.kunta
-
   mapFeatures[kuntaTag] = layer;
-
-
-
   layer.bindTooltip(feature.properties.nimi)
   
+}
+
+getStyle = (feature) => {
+  return{
+    weight: 2
+  }
 }
 
 getData = async () => {
