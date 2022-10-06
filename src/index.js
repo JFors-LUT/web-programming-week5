@@ -21,12 +21,14 @@ const initMap = (data) =>{
 
 
   let map = L.map('map', {
-    minZoom: -2
+    minZoom: -3
   })
 
   let geoJSON = L.geoJSON(data, {
     onEachFeature: getFeature,
     weight: 2
+
+
   }).addTo(map)
 
   let listedValues = getData();
